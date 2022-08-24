@@ -6,8 +6,15 @@ import Router from "./router";
 
 import "virtual:windi.css";
 
+import "nprogress/nprogress.css";
+
 import ElementPlus from "element-plus";
 import "element-plus/dist/index.css";
+
+import { createPinia } from "pinia";
+
+const pinia = createPinia();
+
 
 const app = createApp(App);
 /**注册路由 */
@@ -17,8 +24,11 @@ app.use(Router);
 app.use(ElementPlus);
 /**全局注册element-icons图标 */
 import * as ElementPlusIconsVue from "@element-plus/icons-vue";
+
 for (const [key, component] of Object.entries(Element)) {
-  app.component(key, component);
+    app.component(key, component);
 }
+
+app.use(pinia);
 
 app.mount("#app");
