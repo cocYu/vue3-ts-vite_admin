@@ -23,9 +23,10 @@ app.use(Router);
 /**全局注册ElementPlus */
 app.use(ElementPlus);
 /**全局注册element-icons图标 */
+
 import * as ElementPlusIconsVue from "@element-plus/icons-vue";
 
-for (const [key, component] of Object.entries(Element)) {
+for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
     app.component(key, component);
 }
 

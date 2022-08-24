@@ -5,3 +5,8 @@
     background-color: #f4f4f4 !important;
     height: 3px !important;
 }
+
+body,#app{
+    margin:0;
+    padding: 0;
+}

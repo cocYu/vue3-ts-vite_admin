@@ -12,10 +12,16 @@ import { hideFullLoading, showFullLoading } from "~/utils/loadUtil";
 const routes: RouteRecordRaw[] = [
     {
         path: "/",
-        component: () => import("~/pages/index/index.vue"),
-        meta: {
-            title: "首页"
-        }
+        component: () => import("~/pages/layout/admin.vue"),
+        children: [
+            {
+                path: "/",
+                component: () => import("~/pages/index/index.vue"),
+                meta: {
+                    title: "首页"
+                }
+            }
+        ]
     },
     {
         path: "/about",
