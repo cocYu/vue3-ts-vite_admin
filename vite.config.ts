@@ -22,6 +22,11 @@ export default defineConfig({
                 changeOrigin: true,
                 rewrite: (uri) => uri.replace(/^\/api/, ""),
             },
+            "/yk": {
+                target: "http://localhost:8188",
+                changeOrigin: true,
+                rewrite: (uri) => uri.replace(/^\/yk/, ""),
+            },
         },
     },
 });

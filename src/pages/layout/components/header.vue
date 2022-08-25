@@ -39,6 +39,34 @@
             </el-dropdown>
         </div>
     </div>
+    <el-drawer
+        v-model="drawer"
+        title="修改密码"
+        :before-close="handleClose"
+        size="45%"
+        :close-on-click-modal="false"
+        :show-close="false"
+    >
+        <el-form :model="changePasswordForm" label-width="100px" :rules="Rules" ref="changePasswordFormRef">
+            <el-form-item label="旧密码" prop="oldpassword">
+                <el-input type="password" v-model="changePasswordForm.oldpassword" placeholder="旧密码"></el-input>
+            </el-form-item>
+            <el-form-item label="新密码" prop="password">
+                <el-input type="password" v-model="changePasswordForm.password" placeholder="新密码"></el-input>
+            </el-form-item>
+            <el-form-item label="确认密码" prop="repassword">
+                <el-input type="password" v-model="changePasswordForm.repassword" placeholder="确认密码"></el-input>
+            </el-form-item>
+        </el-form>
+        <template #footer>
+            <div class="flex">
+                <el-button type="primary" @click="submitChangePassword" :loading="submitChangePasswordBtnLoading">
+                    提交
+                </el-button>
+                <el-button type="primary" @click="cancleSubmit" :loading="cancelSubmitLoading">取消</el-button>
+            </div>
+        </template>
+    </el-drawer>
 </template>
 
 <script setup lang="ts">
@@ -53,6 +81,10 @@ import { toast } from "~/utils/notifyUtil";
 import { delToken } from "~/utils/cookieUtil";
 import { useRouter } from "vue-router";
 import { useFullscreen } from "@vueuse/core";
+import { Rules, changePasswordForm, clearChangePasswordForm } from "../conf/headerConf";
+import { ElForm } from "element-plus";
+
+const changePasswordFormRef = ref<InstanceType<typeof ElForm>>();
 
 const { isFullscreen, toggle } = useFullscreen();
 
@@ -77,6 +109,7 @@ const handleCommand = (e: string | number | object) => {
     switch (e) {
         case "repassword":
             console.log("修改密码");
+            drawer.value = true;
             break;
         case "logout":
             logout();
@@ -107,6 +140,51 @@ const logout = () => {
 const handlerRefresh = () => {
     console.log("刷新");
     location.reload();
+};
+
+// 弹出框相关
+const drawer = ref<boolean>(false);
+const handleClose = (done: () => void) => {
+    console.log(done);
+    drawer.value = false;
+};
+
+function cancelClick() {
+    drawer.value = false;
+}
+
+function confirmClick() {
+    drawer.value = true;
+}
+
+const submitChangePasswordBtnLoading = ref<boolean>(false);
+
+const submitChangePassword = () => {
+    submitChangePasswordBtnLoading.value = true;
+    console.log("提交修改密码", changePasswordFormRef.value);
+    changePasswordFormRef.value?.validate((valid) => {
+        if (!valid) {
+            return false;
+        }
+        console.log(changePasswordForm);
+    });
+    submitChangePasswordBtnLoading.value = false;
+    clearChangePasswordForm();
+};
+
+const cancelSubmitLoading = ref<boolean>(false);
+
+const cancleSubmit = () => {
+    cancelSubmitLoading.value = true;
+    showModal("是否确认取消修改密码?", "warning", "取消")
+        .then((res) => {
+            drawer.value = false;
+            toast("取消修改密码", "warning");
+        })
+        .finally(() => {
+            clearChangePasswordForm();
+            cancelSubmitLoading.value = false;
+        });
 };
 </script>
 
