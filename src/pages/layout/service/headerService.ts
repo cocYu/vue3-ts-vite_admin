@@ -5,6 +5,10 @@ import { showModal } from "~/utils/messageBoxUtil";
 import { toast } from "~/utils/notifyUtil";
 import { changePasswordForm, clearChangePasswordForm } from "~/pages/layout/conf/headerConf";
 import { Ref, UnwrapRef } from "@vue/reactivity";
+import { LOGOUT } from "~/api/auth/auth";
+import { delToken } from "~/utils/cookieUtil";
+import { useUserStore } from "~/store/userStore";
+import { useRouter } from "vue-router";
 
 // 修改密码相关
 interface RepasswordInterface{
@@ -58,3 +62,32 @@ export function useRepassword(): RepasswordInterface{
         openDrawer
     }
 }
+
+// 退出登录
+interface UseLogoutInterface {
+    logout: () => void
+}
+export function useLogout(){
+    const userStore = useUserStore();
+    const router = useRouter();
+    const logout = () => {
+        showModal("确定要离开我么？", "warning", "退出登录").then((res) => {
+            console.log("退出登录");
+            LOGOUT()
+                .then((res) => {
+                    toast(res.data.msg || "退出登录成功");
+                })
+                .finally(() => {
+                    delToken();
+                    userStore.userInfo = {};
+                    router.push("/login");
+                });
+        });
+    };
+
+    return {
+        logout
+    }
+}
+
+

@@ -63,25 +63,30 @@
 import { useUserStore } from "~/store/userStore";
 import { reactive, ref } from "vue";
 import { UserInfo } from "~/store/types";
-import logo from "~/assets/vue.svg";
 
-import { showModal } from "~/utils/messageBoxUtil";
-import { LOGOUT } from "~/api/auth/auth";
-import { toast } from "~/utils/notifyUtil";
-import { delToken } from "~/utils/cookieUtil";
 import { useRouter } from "vue-router";
 import { useFullscreen } from "@vueuse/core";
 import { Rules, changePasswordForm, clearChangePasswordForm } from "../conf/headerConf";
 import { ElForm } from "element-plus";
-import FormDrawer from "~/components/formDrawer/formDrawer.vue";
-import { setCancelBtnLoadingStatus, setSubmitBtnLoadingStatus } from "~/components/formDrawer/config";
-import {useRepassword} from "~/pages/layout/service/headerService";
+import { useLogout, useRepassword } from "~/pages/layout/service/headerService";
+
+const {
+    cancleSubmit,
+    submitChangePassword,
+    changePasswordFormRef,
+    formdDrawerRef,
+    openDrawer
+} = useRepassword();
+
+const {
+    logout
+} = useLogout();
 
 const { isFullscreen, toggle } = useFullscreen();
 
 const userStore = useUserStore();
 
-const userInfo = reactive<UserInfo>(userStore.userInfo);
+const userInfo = reactive<UserInfo>( userStore.userInfo);
 
 const router = useRouter();
 
@@ -96,13 +101,6 @@ const handlerFullScreen = () => {
     toggle();
 };
 
-const {
-    cancleSubmit,
-    submitChangePassword,
-    changePasswordFormRef,
-    formdDrawerRef,
-    openDrawer
-} = useRepassword();
 const handleCommand = (e: string | number | object) => {
     switch (e) {
         case "repassword":
@@ -114,21 +112,6 @@ const handleCommand = (e: string | number | object) => {
         default:
             break;
     }
-};
-
-const logout = () => {
-    showModal("确定要离开我么？", "warning", "退出登录").then((res) => {
-        console.log("退出登录");
-        LOGOUT()
-            .then((res) => {
-                toast(res.data.msg || "退出登录成功");
-            })
-            .finally(() => {
-                delToken();
-                userStore.userInfo = {};
-                router.push("/login");
-            });
-    });
 };
 
 /**
