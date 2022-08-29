@@ -69,6 +69,7 @@ import { useFullscreen } from "@vueuse/core";
 import { Rules, changePasswordForm, clearChangePasswordForm } from "../conf/headerConf";
 import { ElForm } from "element-plus";
 import { useLogout, useRepassword } from "~/pages/layout/service/headerService";
+import FormDrawer from "~/components/formDrawer/formDrawer.vue"
 
 const {
     cancleSubmit,

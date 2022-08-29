@@ -19,22 +19,23 @@
             </div>
 
         </div>
-        <template #footer>
-            <!--            <div class="flex">-->
-            <!--                <el-button type="primary" @click="submitChangePassword" :loading="submitChangePasswordBtnLoading">-->
-            <!--                    提交-->
-            <!--                </el-button>-->
-            <!--                <el-button type="primary" @click="cancleSubmit" :loading="cancelSubmitLoading">取消</el-button>-->
-            <!--            </div>-->
-        </template>
     </el-drawer>
 </template>
 
 <script lang="ts" setup>
-import { cancelBtnIsLoading, close, open, showDrawer, submitBtnIsLoading, setCancelBtnLoadingStatus, setSubmitBtnLoadingStatus } from "./config";
-import { showModal } from "~/utils/messageBoxUtil";
-import { toast } from "~/utils/notifyUtil";
-// 向父组件暴露以下方法
+import { useFormDrawer } from "./config";
+
+const {
+    showDrawer,
+    open,
+    close,
+    cancelBtnIsLoading,
+    submitBtnIsLoading,
+    setCancelBtnLoadingStatus,
+    setSubmitBtnLoadingStatus
+} = useFormDrawer();
+
+// 向父组件暴露
 defineExpose({
     open,
     close,

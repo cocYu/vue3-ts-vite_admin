@@ -13,16 +13,16 @@ import { useRouter } from "vue-router";
 // 修改密码相关
 interface RepasswordInterface{
     openDrawer: () => void,
-    formdDrawerRef: Ref<UnwrapRef<InstanceType<typeof FormDrawer>>>,
+    formdDrawerRef: Ref<UnwrapRef<InstanceType<typeof FormDrawer>> | null>,
     changePasswordFormRef: Ref<UnwrapRef<InstanceType<typeof ElForm>> | null>,
     submitChangePassword: () => void,
     cancleSubmit: () => void
 }
-export function useRepassword(): RepasswordInterface{
+export function useRepassword():RepasswordInterface{
 
-    const formdDrawerRef = ref<InstanceType<typeof FormDrawer>>(null);
+    const formdDrawerRef = ref<InstanceType<typeof FormDrawer> | null>(null);
 
-    const changePasswordFormRef = ref<InstanceType<typeof ElForm>| null>(null);
+    const changePasswordFormRef = ref<InstanceType<typeof ElForm> | null>(null);
 
     const submitChangePassword = () => {
         formdDrawerRef.value.setSubmitBtnLoadingStatus(true);
@@ -67,7 +67,7 @@ export function useRepassword(): RepasswordInterface{
 interface UseLogoutInterface {
     logout: () => void
 }
-export function useLogout(){
+export function useLogout():UseLogoutInterface{
     const userStore = useUserStore();
     const router = useRouter();
     const logout = () => {
