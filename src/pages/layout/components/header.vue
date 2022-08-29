@@ -4,7 +4,9 @@
             <el-image src="/public/vite.svg" class="mr-1"></el-image>
             Y-A
         </span>
-        <el-icon class="icon-btn"><fold /></el-icon>
+        <el-icon class="icon-btn">
+            <fold />
+        </el-icon>
         <el-tooltip content="刷新" placement="bottom" effect="dark">
             <el-icon class="icon-btn" @click="handlerRefresh">
                 <refresh />
@@ -39,34 +41,22 @@
             </el-dropdown>
         </div>
     </div>
-    <el-drawer
-        v-model="drawer"
-        title="修改密码"
-        :before-close="handleClose"
-        size="45%"
-        :close-on-click-modal="false"
-        :show-close="false"
-    >
-        <el-form :model="changePasswordForm" label-width="100px" :rules="Rules" ref="changePasswordFormRef">
-            <el-form-item label="旧密码" prop="oldpassword">
-                <el-input type="password" v-model="changePasswordForm.oldpassword" placeholder="旧密码"></el-input>
-            </el-form-item>
-            <el-form-item label="新密码" prop="password">
-                <el-input type="password" v-model="changePasswordForm.password" placeholder="新密码"></el-input>
-            </el-form-item>
-            <el-form-item label="确认密码" prop="repassword">
-                <el-input type="password" v-model="changePasswordForm.repassword" placeholder="确认密码"></el-input>
-            </el-form-item>
-        </el-form>
-        <template #footer>
-            <div class="flex">
-                <el-button type="primary" @click="submitChangePassword" :loading="submitChangePasswordBtnLoading">
-                    提交
-                </el-button>
-                <el-button type="primary" @click="cancleSubmit" :loading="cancelSubmitLoading">取消</el-button>
-            </div>
+    <form-drawer ref="formdDrawerRef" title="修改密码" destroyOnClose @submitBtnClick="submitChangePassword"
+                 @cancelClick="cancleSubmit">
+        <template #body>
+            <el-form :model="changePasswordForm" label-width="100px" :rules="Rules" ref="changePasswordFormRef">
+                <el-form-item label="旧密码" prop="oldpassword">
+                    <el-input type="password" v-model="changePasswordForm.oldpassword" placeholder="旧密码"></el-input>
+                </el-form-item>
+                <el-form-item label="新密码" prop="password">
+                    <el-input type="password" v-model="changePasswordForm.password" placeholder="新密码"></el-input>
+                </el-form-item>
+                <el-form-item label="确认密码" prop="repassword">
+                    <el-input type="password" v-model="changePasswordForm.repassword" placeholder="确认密码"></el-input>
+                </el-form-item>
+            </el-form>
         </template>
-    </el-drawer>
+    </form-drawer>
 </template>
 
 <script setup lang="ts">
@@ -83,8 +73,9 @@ import { useRouter } from "vue-router";
 import { useFullscreen } from "@vueuse/core";
 import { Rules, changePasswordForm, clearChangePasswordForm } from "../conf/headerConf";
 import { ElForm } from "element-plus";
-
-const changePasswordFormRef = ref<InstanceType<typeof ElForm>>();
+import FormDrawer from "~/components/formDrawer/formDrawer.vue";
+import { setCancelBtnLoadingStatus, setSubmitBtnLoadingStatus } from "~/components/formDrawer/config";
+import {useRepassword} from "~/pages/layout/service/headerService";
 
 const { isFullscreen, toggle } = useFullscreen();
 
@@ -105,11 +96,17 @@ const handlerFullScreen = () => {
     toggle();
 };
 
+const {
+    cancleSubmit,
+    submitChangePassword,
+    changePasswordFormRef,
+    formdDrawerRef,
+    openDrawer
+} = useRepassword();
 const handleCommand = (e: string | number | object) => {
     switch (e) {
         case "repassword":
-            console.log("修改密码");
-            drawer.value = true;
+            formdDrawerRef.value.open();
             break;
         case "logout":
             logout();
@@ -142,50 +139,6 @@ const handlerRefresh = () => {
     location.reload();
 };
 
-// 弹出框相关
-const drawer = ref<boolean>(false);
-const handleClose = (done: () => void) => {
-    console.log(done);
-    drawer.value = false;
-};
-
-function cancelClick() {
-    drawer.value = false;
-}
-
-function confirmClick() {
-    drawer.value = true;
-}
-
-const submitChangePasswordBtnLoading = ref<boolean>(false);
-
-const submitChangePassword = () => {
-    submitChangePasswordBtnLoading.value = true;
-    console.log("提交修改密码", changePasswordFormRef.value);
-    changePasswordFormRef.value?.validate((valid) => {
-        if (!valid) {
-            return false;
-        }
-        console.log(changePasswordForm);
-    });
-    submitChangePasswordBtnLoading.value = false;
-    clearChangePasswordForm();
-};
-
-const cancelSubmitLoading = ref<boolean>(false);
-
-const cancleSubmit = () => {
-    cancelSubmitLoading.value = true;
-    showModal("是否确认取消修改密码?", "warning", "取消")
-        .then((res) => {
-            drawer.value = false;
-            toast("取消修改密码", "warning");
-        })
-        .finally(() => {
-            clearChangePasswordForm();
-            cancelSubmitLoading.value = false;
-        });
-};
 </script>
 
 <style scoped>
@@ -193,10 +146,12 @@ const cancleSubmit = () => {
     @apply flex bg-indigo-700 text-light-50 fixed top-0 left-0 right-0 items-center;
     height: 64px;
 }
+
 .logo {
     width: 250px;
     @apply flex flex-row justify-center items-center text-xl font-thin;
 }
+
 .icon-btn {
     @apply flex justify-center items-center;
     width: 42px;
@@ -207,8 +162,9 @@ const cancleSubmit = () => {
 .icon-btn:hover {
     @apply bg-indigo-600;
 }
+
 .y-header .dropdown {
-    height: 64ppx;
+    height: 64 ppx;
     cursor: pointer;
     @apply flex items-center justify-center mx-5;
 }
