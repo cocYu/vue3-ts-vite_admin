@@ -69,25 +69,25 @@ import { useFullscreen } from "@vueuse/core";
 import { Rules, changePasswordForm, clearChangePasswordForm } from "../conf/headerConf";
 import { ElForm } from "element-plus";
 import { useLogout, useRepassword } from "~/pages/layout/service/headerService";
-import FormDrawer from "~/components/formDrawer/formDrawer.vue"
+import FormDrawer from "~/components/formDrawer/formDrawer.vue";
 
 const {
     cancleSubmit,
     submitChangePassword,
     changePasswordFormRef,
     formdDrawerRef,
-    openDrawer
+    openDrawer,
 } = useRepassword();
 
 const {
-    logout
+    logout,
 } = useLogout();
 
 const { isFullscreen, toggle } = useFullscreen();
 
 const userStore = useUserStore();
 
-const userInfo = reactive<UserInfo>( userStore.userInfo);
+const userInfo = reactive<UserInfo>(userStore.userInfo);
 
 const router = useRouter();
 
@@ -148,7 +148,7 @@ const handlerRefresh = () => {
 }
 
 .y-header .dropdown {
-    height: 64 ppx;
+    height: 64px;
     cursor: pointer;
     @apply flex items-center justify-center mx-5;
 }
