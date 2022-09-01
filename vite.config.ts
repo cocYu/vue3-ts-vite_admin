@@ -21,12 +21,7 @@ export default defineConfig({
                 target: "http://ceshi13.dishait.cn",
                 changeOrigin: true,
                 rewrite: (uri) => uri.replace(/^\/api/, ""),
-            },
-            "/yk": {
-                target: "http://localhost:8188",
-                changeOrigin: true,
-                rewrite: (uri) => uri.replace(/^\/yk/, ""),
-            },
+            }
         },
     },
 });

@@ -95,6 +95,14 @@ const dynamicRouter: RouteRecordRaw[] = [
         meta: {
             title: "角色管理",
         },
+    },
+    {
+        path: "/manager/list",
+        component: () => import("~/pages/admin/manager/list.vue"),
+        name: "MANAGER_LIST",
+        meta: {
+            title: "管理员管理",
+        },
     }
 ];
 
