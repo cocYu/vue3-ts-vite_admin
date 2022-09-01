@@ -2,7 +2,7 @@ import { createApp } from "vue";
 import "./style.css";
 import App from "./App.vue";
 
-import Router from "./router";
+import {router} from "./router";
 
 import "virtual:windi.css";
 
@@ -17,8 +17,10 @@ const pinia = createPinia();
 
 
 const app = createApp(App);
+
+app.use(pinia);
 /**注册路由 */
-app.use(Router);
+app.use(router);
 
 /**全局注册ElementPlus */
 app.use(ElementPlus);
@@ -29,7 +31,5 @@ import * as ElementPlusIconsVue from "@element-plus/icons-vue";
 for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
     app.component(key, component);
 }
-
-app.use(pinia);
 
 app.mount("#app");

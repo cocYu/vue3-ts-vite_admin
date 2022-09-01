@@ -4,7 +4,7 @@
 import { LoginForm } from "~/api/auth/types";
 
 
-export interface UserInfo{
+export interface UserInfo {
     id?: number,
     avatar?: string,
     super?: number,
@@ -17,7 +17,7 @@ export interface UserInfo{
 /**
  * 角色信息
  */
-export interface Role{
+export interface Role {
     id: number,
     name: string
 }
@@ -25,7 +25,7 @@ export interface Role{
 /**
  * 菜单信息
  */
-export interface Menu{
+export interface Menu {
     condition?: string,
     create_time: Date,
     desc: string,
@@ -43,7 +43,7 @@ export interface Menu{
 
 
 export interface UserStoreState {
-    userInfo: UserInfo
+    userInfo: UserInfo;
 }
 
 export interface UserStoreAction {
@@ -53,5 +53,20 @@ export interface UserStoreAction {
      * @param userInfo 用户信息
      * @constructor
      */
-    SET_USER_INFO: () => Promise<UserInfo>
+    SET_USER_INFO: () => Promise<UserInfo>;
 }
+
+/**
+ * app Store 声明
+ */
+export interface AppStoreState {
+    asideWidth: string
+}
+
+export interface AppStoreAction {
+    /**
+     * 展开/收缩 侧边栏
+     */
+    handleAsideWidth: () => void;
+}
+

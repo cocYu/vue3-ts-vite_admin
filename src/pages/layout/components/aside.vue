@@ -1,19 +1,23 @@
 <template>
-    <div class="ymenu">
+    <div class="ymenu" :style="{width: appStore.asideWidth }">
         <el-menu
             default-active="2"
             class="border-0"
             @select="select"
+            :collapse="isCollapse"
+            :collapse-transition="false"
+            unique-opened
+            :default-active="'/role/list'"
         >
             <template v-for="(item, index) in menus" :key="index">
-                <el-sub-menu :index="index">
+                <el-sub-menu v-if="item.child && item.child.length > 0" :index="index.toString()">
                     <template #title>
                         <el-icon>
                             <component :is="item.icon"></component>
                         </el-icon>
                         <span>{{item.name}}</span>
                     </template>
-                    <template v-for="(child, cindex) in item.child" :key="index+ '_' + cindex">
+                    <template v-for="(child, cindex) in item.child" :key="cindex">
                        <el-menu-item :index="child.frontpath">
                            <el-icon>
                                <component :is="child.icon"></component>
@@ -22,6 +26,12 @@
                        </el-menu-item>
                     </template>
                 </el-sub-menu>
+                <el-menu-item v-else :index="item.frontpath">
+                    <el-icon>
+                        <component :is="item.icon"></component>
+                    </el-icon>
+                    <span>{{item.name}}</span>
+                </el-menu-item>
             </template>
         </el-menu>
     </div>
@@ -29,18 +39,35 @@
 
 <script setup lang="ts">
 import {useMenu} from "~/pages/layout/service/asideService";
+import { useAppStore } from "~/store/appStore";
+import { computed, ref } from "vue";
+import { useRoute } from "vue-router";
 
 const {menus, select} = useMenu();
+
+const appStore = useAppStore();
+
+const route = useRoute();
+
+const defaultActive = ref<string>(route.path);
+console.log(defaultActive.value);
+
+
+const isCollapse = computed(() => !(appStore.asideWidth === "250px"))
 
 </script>
 
 <style scoped>
 .ymenu {
-    width: 250px;
-    overflow: auto;
+    transition:  all 0.2s;
+    overflow-y: auto;
+    overflow-x: hidden;
     @apply shadow-md fixed bg-light-50;
     top: 64px;
     bottom: 0;
     left: 0;
+}
+.el-menu{
+    border-right: none!important;
 }
 </style>

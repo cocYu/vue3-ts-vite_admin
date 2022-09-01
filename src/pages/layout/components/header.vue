@@ -4,8 +4,9 @@
             <el-image src="/public/vite.svg" class="mr-1"></el-image>
             Y-A
         </span>
-        <el-icon class="icon-btn">
-            <fold />
+        <el-icon class="icon-btn" @click="appStore.handleAsideWidth()">
+            <fold v-if="appStore.asideWidth == '250px'"/>
+            <expand v-else/>
         </el-icon>
         <el-tooltip content="刷新" placement="bottom" effect="dark">
             <el-icon class="icon-btn" @click="handlerRefresh">
@@ -70,6 +71,9 @@ import { Rules, changePasswordForm, clearChangePasswordForm } from "../conf/head
 import { ElForm } from "element-plus";
 import { useLogout, useRepassword } from "~/pages/layout/service/headerService";
 import FormDrawer from "~/components/formDrawer/formDrawer.vue";
+import { useAppStore } from "~/store/appStore";
+
+const appStore =  useAppStore();
 
 const {
     cancleSubmit,
