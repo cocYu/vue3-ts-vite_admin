@@ -9,7 +9,15 @@
             </el-aside>
             <el-main>
                 <YTagList></YTagList>
-                <router-view/>
+                <div class="main-content">
+                    <router-view v-slot="{Component}">
+                        <transition name="fade" mode="out-in">
+                            <keep-alive :max="10">
+                                <component :is="Component"></component>
+                            </keep-alive>
+                        </transition>
+                    </router-view>
+                </div>
             </el-main>
         </el-container>
     </el-container>
@@ -26,10 +34,36 @@ const appStore = useAppStore();
 </script>
 
 <style scoped>
-.el-aside{
+.el-aside {
     transition: all 0.2s;
 }
-:deep(.el-main){
+
+:deep(.el-main) {
     padding: 4px 0;
 }
+
+.main-content {
+    padding: 20px;
+}
+
+.fade-enter-from {
+    opacity: 0;
+}
+
+.fade-enter-to {
+    opacity: 1;
+}
+
+.fade-leave-from {
+    opacity: 1;
+}
+
+.fade-leave-to {
+    opacity: 0;
+}
+
+.fade-enter-active, .fade-leave-active {
+    transition: all 0.3s;
+}
+
 </style>

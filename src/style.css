@@ -10,3 +10,7 @@ body,#app{
     margin:0;
     padding: 0;
 }
+
+body{
+    @apply bg-gray-100;
+}

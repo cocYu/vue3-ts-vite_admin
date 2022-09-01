@@ -1,13 +1,12 @@
 <template>
     <div class="ymenu" :style="{width: appStore.asideWidth }">
         <el-menu
-            default-active="2"
+            :default-active="defaultActive"
             class="border-0"
             @select="select"
             :collapse="isCollapse"
             :collapse-transition="false"
             unique-opened
-            :default-active="'/role/list'"
         >
             <template v-for="(item, index) in menus" :key="index">
                 <el-sub-menu v-if="item.child && item.child.length > 0" :index="index.toString()">
@@ -43,14 +42,9 @@ import { useAppStore } from "~/store/appStore";
 import { computed, ref } from "vue";
 import { useRoute } from "vue-router";
 
-const {menus, select} = useMenu();
+const {menus, select, defaultActive} = useMenu();
 
 const appStore = useAppStore();
-
-const route = useRoute();
-
-const defaultActive = ref<string>(route.path);
-console.log(defaultActive.value);
 
 
 const isCollapse = computed(() => !(appStore.asideWidth === "250px"))

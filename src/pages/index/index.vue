@@ -1,4 +1,8 @@
-<template>这是首页</template>
+<template>
+    <div class="index">
+        这是首页
+    </div>
+</template>
 
 <script lang="ts" setup></script>
 

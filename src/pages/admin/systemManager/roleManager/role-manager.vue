@@ -1,5 +1,7 @@
 <template>
-    这是角色管理页面
+    <div>
+        这是角色管理
+    </div>
 </template>
 
 <script lang="ts" setup>
