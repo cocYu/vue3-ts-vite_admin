@@ -52,11 +52,14 @@
             </template>
 
         </el-row>
+
+        <index-nav/>
     </div>
 </template>
 
 <script lang="ts" setup>
 import countTo from "~/components/countTo/countTo.vue"
+import IndexNav from "./components/indexNavs.vue";
 
 import { useIndexBussiness } from "~/pages/index/bussiness";
 import CountTo from "~/components/countTo/countTo.vue";

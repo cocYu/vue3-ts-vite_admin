@@ -1,5 +1,5 @@
 import { statistics_1 } from "~/api/chart/chart";
-import { ref } from "vue";
+import { reactive, ref } from "vue";
 import { Chart1 } from "~/api/chart/types";
 
 /**
@@ -17,6 +17,7 @@ export function useIndexBussiness() {
         });
     };
     getChart1Data();
+
 
     return {
         getChart1Data,
