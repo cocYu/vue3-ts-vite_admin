@@ -70,6 +70,9 @@ export function useTaglist() {
      */
     const initTabList = () => {
         let tabs = cookie.get(CookieEnum.TAB_LIST);
+        if (typeof(tabs) === 'undefined'){
+            return;
+        }
         tabList.value = tabs;
     };
 
