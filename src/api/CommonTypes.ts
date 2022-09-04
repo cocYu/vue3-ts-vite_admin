@@ -6,3 +6,10 @@ export interface DefaultResponseResult<T = any>{
     data?: T,
     success?: boolean
 }
+
+
+export interface PageRequest<T = any> {
+    page: number ,
+    data?: T,
+    limit?: number
+}

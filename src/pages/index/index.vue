@@ -1,6 +1,11 @@
 <template>
     <div class="index">
         <el-row :gutter="20">
+            <el-col :span="24">
+                <welcome/>
+            </el-col>
+        </el-row>
+        <el-row :gutter="20">
             <template  v-if="panels.length == 0">
                 <template v-for="i in 4" :key="i">
                     <el-col :span="6" :offset="0">
@@ -60,9 +65,11 @@
 <script lang="ts" setup>
 import countTo from "~/components/countTo/countTo.vue"
 import IndexNav from "./components/indexNavs.vue";
+import welcome from "./components/welcome.vue";
 
 import { useIndexBussiness } from "~/pages/index/bussiness";
 import CountTo from "~/components/countTo/countTo.vue";
+import Welcome from "~/pages/index/components/welcome.vue";
 
 const { getChart1Data, panels } = useIndexBussiness();
 

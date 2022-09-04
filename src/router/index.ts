@@ -103,6 +103,22 @@ const dynamicRouter: RouteRecordRaw[] = [
         meta: {
             title: "管理员管理",
         },
+    },
+    {
+        path: "/notice/list",
+        component: () => import("~/pages/admin/notice/notice-list.vue"),
+        name: "NOTICE_LIST",
+        meta: {
+            title: "公告管理"
+        }
+    },
+    {
+        path: "/access/list",
+        component: () => import("~/pages/admin/menu/menulist.vue"),
+        name: "MENU_LIST",
+        meta: {
+            title: "权限管理"
+        }
     }
 ];
 

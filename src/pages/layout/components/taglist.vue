@@ -38,7 +38,6 @@
                 </template>
             </el-dropdown>
         </span>
-
     </div>
 </template>
 
@@ -63,6 +62,7 @@ const appStore = useAppStore();
     right: 0px;
     height: 44px;
     z-index: 100;
+    position: fixed;
 }
 
 :deep(.el-tabs__header) {

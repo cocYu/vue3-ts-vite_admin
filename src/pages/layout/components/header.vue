@@ -133,6 +133,7 @@ const handlerRefresh = () => {
 .y-header {
     @apply flex bg-indigo-700 text-light-50 fixed top-0 left-0 right-0 items-center;
     height: 64px;
+    z-index: 200;
 }
 
 .logo {
